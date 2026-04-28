@@ -35,6 +35,7 @@ public class DataLoad {
                 .toList();
         //System.out.println(filePaths);
 
+
         StringBuilder valid = new StringBuilder();
         for (Path fp : filePaths) {
             valid.append(Files.lines(Paths.get(fp.toUri()))

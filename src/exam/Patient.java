@@ -68,10 +68,15 @@ public class Patient implements Monitoring{
         poslední = nejvyšší hodnota minute
         pokud pacient nemá měření → vrátí null
          */
-        return Run.measurements.stream()
-                .filter(m -> m.getPatientId().equals(this.getId()))
-                .sorted(Comparator.comparing(Measurement::getMinute))
-                .toList().reversed().stream().findFirst().orElse(null);
+        //jsem si nemšim že Patient má measurements :D
+        //return Run.measurements.stream()
+        //        .filter(m -> m.getPatientId().equals(this.getId()))
+        //        .sorted(Comparator.comparing(Measurement::getMinute))
+        //        .toList().reversed().stream().findFirst().orElse(null);
+        if (measurements.isEmpty()) {
+            return null;
+        }
+        return this.measurements.getLast();
     }
 
     @Override
@@ -127,8 +132,7 @@ public class Patient implements Monitoring{
          */
 
 
-        Run.measurements.stream()
-                .filter(m -> m.getPatientId().equals(this.getId()))
+        this.measurements.stream()
                 .sorted(Comparator.comparing(Measurement::getMinute))
                 .forEach(System.out::println);
 

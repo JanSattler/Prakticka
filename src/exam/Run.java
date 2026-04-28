@@ -2,6 +2,7 @@ package exam;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -23,6 +24,9 @@ public class Run {
         try {
 
             DataLoad.init();
+            LogThread thread = new LogThread();
+            thread.setName("logThread");
+            thread.start();
 
             String action = "";
             while (!action.equals("5")) {
@@ -34,11 +38,29 @@ public class Run {
                 action = sc.nextLine();
                 switch (action) {
                     case "1":
+                        PatientTest.init();
                         break;
                     case "2":
                         PatientGui.init();
                         break;
+                    case "3":
+                        MonitoringServices.init();
+                        break;
+                    case "4":
+                        if (thread.isAlive()) {
+                            thread.interrupt();
+                            System.out.println("Logging disabled");
+                        } else {
+                            thread = new LogThread();
+                            thread.setName("logThread");
+                            thread.start();
+                            System.out.println("Logging enabled");
+                        }
+                        break;
                 }
+            }
+            if (thread.isAlive()) {
+                thread.interrupt();
             }
             System.out.println("Ukončuji program...");
         } catch (IOException e) {
@@ -59,9 +81,17 @@ public class Run {
         System.out.println("1 - OOP otestovani implementace");
         System.out.println("2 - GUI");
         System.out.println("3 - Statistiky");
-        System.out.println("4 - Thread");
+        System.out.println("4 - Thread Start/stop");
         System.out.println("5 - Konec");
         System.out.print("> ");
+    }
+
+    public static boolean doesPatientExist(String patientId) {
+        List<String> ids = Run.patients.stream().map(Patient::getId).toList();
+        if (ids.contains(patientId)) {
+            return true;
+        }
+        return false;
     }
 
     private static void toggleLogging() {

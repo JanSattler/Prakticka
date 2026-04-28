@@ -13,9 +13,9 @@ public class PatientTest {
         Patient p2 = new Patient("P002", 40, "Internal");
 
         System.out.println("TEST: pacient bez měření");
-//        System.out.println(p2.getLatestMeasurement()); // null
-//        System.out.println(p2.getRiskScore());         // 0
-//        System.out.println(p2.needsAttention());       // false
+        System.out.println(p2.getLatestMeasurement()); // null
+        System.out.println(p2.getRiskScore());         // 0
+        System.out.println(p2.needsAttention());       // false
 
         System.out.println();
 
@@ -26,8 +26,8 @@ public class PatientTest {
         p1.measurements.add(new Measurement("P001", 60, 90.0, 130, 170, 110));
 
         System.out.println("TEST: getLatestMeasurement ");
-//        exam.Measurement latest = p1.getLatestMeasurement();
-//        System.out.println(latest);
+        exam.Measurement latest = p1.getLatestMeasurement();
+        System.out.println(latest);
 
         // melo by byt:
         // minute = 60, oxygen 90, bpm 130, tlak 170/110
@@ -35,11 +35,11 @@ public class PatientTest {
         System.out.println();
 
         System.out.println("TEST: needsAttention ");
-//        System.out.println(p1.needsAttention()); // true (>=5)
+        System.out.println(p1.needsAttention()); // true (>=5)
 
         System.out.println();
 
         System.out.println("printMonitoringInfo: je serazeno?");
-//        p1.printMonitoringInfo();
+        p1.printMonitoringInfo();
     }
 }

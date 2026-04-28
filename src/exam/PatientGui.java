@@ -7,6 +7,8 @@ import java.awt.*;
  * GUI pro pridani mereni.
  */
 public class PatientGui extends JFrame {
+    JTextField patientIdField, minuteField, oxygenField, systolicField, diastolicField;
+    StringBuilder errors;
     private static final int DEFAULT_BPM = 98;
 
     public static void init() {
@@ -25,18 +27,18 @@ public class PatientGui extends JFrame {
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(5, 2, 10, 5));
         JLabel patientIdLabel = new JLabel("Patient ID: ");
-        JTextField patientIdField = new JTextField();
+        patientIdField = new JTextField();
         JLabel minuteLabel = new JLabel("Minute: ");
-        JTextField minuteField = new JTextField();
+        minuteField = new JTextField();
         JLabel oxygenLabel = new JLabel("Oxygen: ");
-        JTextField oxygenField = new JTextField();
+        oxygenField = new JTextField();
         JLabel bloodPressureLabel = new JLabel("Blood pressure: ");
 
         JPanel bloodPressurePanel = new JPanel();
         bloodPressurePanel.setLayout(new FlowLayout());
-        JTextField systolicField = new JTextField();
+         systolicField = new JTextField();
         JLabel slash = new JLabel("/");
-        JTextField diastolicField = new JTextField();
+         diastolicField = new JTextField();
         systolicField.setPreferredSize(new Dimension(50, 20));
         diastolicField.setPreferredSize(new Dimension(50, 20));
         bloodPressurePanel.add(systolicField);
@@ -60,23 +62,34 @@ public class PatientGui extends JFrame {
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
-            StringBuilder errors = new StringBuilder();
+            errors = new StringBuilder();
             if (patientIdField.getText().isEmpty()) {
                 errors.append("- Patient ID field cannot be empty.\n");
-            } //TODO: user musí existovat
+            } else if (!Run.doesPatientExist(patientIdField.getText())) {
+                errors.append("- Patient doesnt exist.\n");
+            }
+
             if (minuteField.getText().isEmpty()) {
                 errors.append("- Minute field cannost be empty.\n");
-            } else if (Integer.parseInt(minuteField.getText()) < 0) {
+            } else if (!checkIfDigit(minuteField)) {
+                errors.append("- Only digits allowed for minute field.\n");
+            } else if (Integer.parseInt(minuteField.getText()) < 0 && checkIfDigit(minuteField)) {
                 errors.append("- Minutes cannot be negative.\n");
             }
+
             if (oxygenField.getText().isEmpty()) {
                 errors.append("- Oxygen field cannot be empty.\n");
-            } else if (Integer.parseInt(oxygenField.getText()) < 0 && Integer.parseInt(oxygenField.getText()) > 100) {
+            } else if (!checkIfDigit(oxygenField)) {
+                errors.append("- Only digits allowed for oxygen field.\n");
+            } else if (Integer.parseInt(oxygenField.getText()) < 0 && Integer.parseInt(oxygenField.getText()) > 100 && checkIfDigit(oxygenField)) {
                 errors.append("- Oxygen is only allowed in range 0 - 100.\n");
             }
+
             if (systolicField.getText().isEmpty() || diastolicField.getText().isEmpty()) {
                 errors.append("- Blood pressure field cannot be empty.\n");
-            } else if (Integer.parseInt(systolicField.getText()) <= Integer.parseInt(diastolicField.getText())) {
+            } else if (!checkIfDigit(systolicField) || !checkIfDigit(diastolicField)) {
+                errors.append("- Only digits allowed for blood pressure field.\n");
+            }else if (Integer.parseInt(systolicField.getText()) <= Integer.parseInt(diastolicField.getText()) && (checkIfDigit(systolicField) && checkIfDigit(diastolicField))) {
                 errors.append("- Systolic field must be greater than diastolic field.\n");
             }
 
@@ -99,5 +112,16 @@ public class PatientGui extends JFrame {
 
         add(formPanel, BorderLayout.NORTH);
         add(saveButton, BorderLayout.SOUTH);
+    }
+
+    boolean checkIfDigit(JTextField field) {
+        boolean isDigit = true;
+        for (int i = 0; i < diastolicField.getText().length(); i++) {
+            if (!Character.isDigit(diastolicField.getText().charAt(i))) {
+                isDigit = false;
+                break;
+            }
+        }
+        return isDigit;
     }
 }
