@@ -63,16 +63,35 @@ public class PatientGui extends JFrame {
             StringBuilder errors = new StringBuilder();
             if (patientIdField.getText().isEmpty()) {
                 errors.append("- Patient ID field cannot be empty.\n");
-            }
+            } //TODO: user musí existovat
             if (minuteField.getText().isEmpty()) {
-                errors.append()
+                errors.append("- Minute field cannost be empty.\n");
+            } else if (Integer.parseInt(minuteField.getText()) < 0) {
+                errors.append("- Minutes cannot be negative.\n");
+            }
+            if (oxygenField.getText().isEmpty()) {
+                errors.append("- Oxygen field cannot be empty.\n");
+            } else if (Integer.parseInt(oxygenField.getText()) < 0 && Integer.parseInt(oxygenField.getText()) > 100) {
+                errors.append("- Oxygen is only allowed in range 0 - 100.\n");
+            }
+            if (systolicField.getText().isEmpty() || diastolicField.getText().isEmpty()) {
+                errors.append("- Blood pressure field cannot be empty.\n");
+            } else if (Integer.parseInt(systolicField.getText()) <= Integer.parseInt(diastolicField.getText())) {
+                errors.append("- Systolic field must be greater than diastolic field.\n");
             }
 
             if (!errors.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Following errors occurred:\n" + errors, "Errors", JOptionPane.ERROR_MESSAGE);
             } else {
-                //new measurement
-                //TicketHandle.supportTickets.add(st);
+                Measurement newMeasurement = new Measurement(
+                        patientIdField.getText(),
+                        Integer.parseInt(minuteField.getText()),
+                        Integer.parseInt(oxygenField.getText()),
+                        DEFAULT_BPM,
+                        Integer.parseInt(systolicField.getText()),
+                        Integer.parseInt(diastolicField.getText())
+                );
+                Run.measurements.add(newMeasurement);
                 JOptionPane.showMessageDialog(null, "Ok", "Info", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             }
