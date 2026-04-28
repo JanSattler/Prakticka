@@ -22,6 +22,66 @@ public class Measurement {
         this.systolic = systolic;
         this.diastolic = diastolic;
     }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public double getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(double oxygen) {
+        this.oxygen = oxygen;
+    }
+
+    public int getBpm() {
+        return bpm;
+    }
+
+    public void setBpm(int bpm) {
+        this.bpm = bpm;
+    }
+
+    public int getSystolic() {
+        return systolic;
+    }
+
+    public void setSystolic(int systolic) {
+        this.systolic = systolic;
+    }
+
+    public int getDiastolic() {
+        return diastolic;
+    }
+
+    public void setDiastolic(int diastolic) {
+        this.diastolic = diastolic;
+    }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "patientId='" + patientId + '\'' +
+                ", minute=" + minute +
+                ", oxygen=" + oxygen +
+                ", bpm=" + bpm +
+                ", systolic=" + systolic +
+                ", diastolic=" + diastolic +
+                '}';
+    }
 }
 
 

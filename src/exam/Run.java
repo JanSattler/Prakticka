@@ -1,5 +1,6 @@
 package exam;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,7 +20,31 @@ public class Run {
         Scanner sc = new Scanner(System.in);
 
         //nactu data:
-        DataLoad.init();
+        try {
+
+            DataLoad.init();
+
+            String action = "";
+            while (!action.equals("5")) {
+                System.out.println("Vyberte jednu z možností zadáním čísla 1 - 5.");
+                printMenu();
+                //Patient p = new Patient("P012", 87, "emergency");
+                //System.out.println(p.getRiskScore());
+                //p.printMonitoringInfo();
+                action = sc.nextLine();
+                switch (action) {
+                    case "1":
+                        break;
+                    case "2":
+                        PatientGui.init();
+                        break;
+                }
+            }
+            System.out.println("Ukončuji program...");
+        } catch (IOException e) {
+            System.out.println("Chyba při načítání dat ze souboru: " + e.getMessage());
+            System.out.println("Ukončuji program...");
+        }
 
         //ruzne moznosti:
 //        exam.PatientTest.init();
